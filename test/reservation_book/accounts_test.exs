@@ -99,10 +99,7 @@ defmodule ReservationBook.AccountsTest do
     end
 
     test "registers users with a hashed password" do
-      # Using fixture
-      email = unique_user_email()
-      password = valid_user_password()
-      mappings = Map.from_struct(%{ user_fixture() |email: email, password: password})
+      %{email: email} = mappings = valid_user_attributes()
       {:ok, user} = Accounts.register_user(mappings)
       assert user.email == email
       assert is_binary(user.hashed_password)
@@ -118,9 +115,7 @@ defmodule ReservationBook.AccountsTest do
     end
 
     test "allows fields to be set" do
-      email = unique_user_email()
-      password = valid_user_password()
-      mappings = Map.from_struct(%{ user_fixture() |email: email, password: password})
+      %{email: email, password: password} = mappings = valid_user_attributes()
       changeset =
         Accounts.change_user_registration(%User{}, mappings)
 

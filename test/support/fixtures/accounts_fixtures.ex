@@ -16,6 +16,7 @@ defmodule ReservationBook.AccountsFixtures do
     Stream.repeatedly(fn -> Enum.random(numbers) end) |> Enum.take(length) |> Enum.join()
   end
 
+  @spec unique_user_email :: <<_::64, _::_*8>>
   def unique_user_email, do: "#{random_string(10)}@test.com"
 
   def valid_user_password, do: "Hello world!"
@@ -25,19 +26,22 @@ defmodule ReservationBook.AccountsFixtures do
   def valid_user_surname, do: "#{random_string (8)} #{ random_string(6)}"
 
   def valid_user_phone, do: (["+346", "6", "+349", "9", "+348", "8"] |> Enum.random()) <> random_number_string(8)
+  def valid_user_attributes(attrs \\ %{}) do
+    attrs
+    |> Enum.into(%{
+      email: unique_user_email(),
+      password: valid_user_password(),
+      name: valid_user_name(),
+      surname: valid_user_surname(),
+      telephone: valid_user_phone(),
+      comments: nil,
+    })
+  end
+
   def user_fixture(attrs \\ %{}) do
     {:ok, user} =
-      attrs
-      |> Enum.into(%{
-        email: unique_user_email(),
-        password: valid_user_password(),
-        name: valid_user_name(),
-        surname: valid_user_surname(),
-        telephone: valid_user_phone(),
-        comments: nil,
-      })
+      valid_user_attributes(attrs)
       |> ReservationBook.Accounts.register_user()
-
     user
   end
 
