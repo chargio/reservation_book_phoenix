@@ -83,6 +83,8 @@ defmodule ReservationBookWeb.UserSettingsControllerTest do
         })
 
       response = html_response(conn, 200)
+      require IEx
+      IEx.pry()
       assert response =~ "<h1>Settings</h1>"
       assert response =~ "must have the @ sign and no spaces"
       assert response =~ "is not valid"

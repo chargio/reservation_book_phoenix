@@ -3,7 +3,6 @@ defmodule ReservationBookWeb.UserRegistrationController do
 
   alias ReservationBook.Accounts
   alias ReservationBook.Accounts.User
-  alias ReservationBookWeb.UserAuth
 
   def new(conn, _params) do
     changeset = Accounts.change_user_registration(%User{})
@@ -21,7 +20,7 @@ defmodule ReservationBookWeb.UserRegistrationController do
 
         conn
         |> put_flash(:info, "User created successfully.")
-        |> UserAuth.log_in_user(user)
+        |> redirect(to: "/")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

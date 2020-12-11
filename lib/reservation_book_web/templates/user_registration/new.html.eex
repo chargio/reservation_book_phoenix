@@ -15,6 +15,23 @@
   <%= password_input f, :password, required: true %>
   <%= error_tag f, :password %>
 
+  <%= label f, :name %>
+  <%= text_input f, :name, required: true %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :surname %>
+  <%= text_input f, :surname, required: true %>
+  <%= error_tag f, :surname %>
+
+  <%= label f, :telephone %>
+  <%= text_input f, :telephone, required: true %>
+  <%= error_tag f, :telephone %>
+
+  <%= label f, :comments %>
+  <%= text_input f, :comments, required: false %>
+  <%= error_tag f, :comments %>
+
+
   <div>
     <%= submit "Register" %>
   </div>

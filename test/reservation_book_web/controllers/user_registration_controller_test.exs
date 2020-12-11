@@ -20,25 +20,24 @@ defmodule ReservationBookWeb.UserRegistrationControllerTest do
 
   describe "POST /users/register" do
     @tag :capture_log
-    test "creates account and logs the user in", %{conn: conn} do
+    test "creates account and does not log the user in", %{conn: conn} do
       %{email: email} = user_attrs = valid_user_attributes()
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => user_attrs}
-        )
+          "user" => user_attrs
+        })
 
-
-
-      assert get_session(conn, :user_token)
+      refute get_session(conn, :user_token)
       assert redirected_to(conn) =~ "/"
 
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ email
-      assert response =~ "Settings</a>"
-      assert response =~ "Log out</a>"
+      refute response =~ email
+      refute response =~ "Settings</a>"
+      refute response =~ "Log out</a>"
+      assert response =~ "Log in</a>"
     end
 
     test "render errors for invalid data", %{conn: conn} do

@@ -65,11 +65,10 @@ defmodule ReservationBook.AccountsTest do
       {:error, changeset} = Accounts.register_user(%{})
 
       assert %{
-              name: ["can't be blank"],
-              surname: ["can't be blank"],
-              telephone: ["can't be blank"],
+               name: ["can't be blank"],
+               surname: ["can't be blank"],
+               telephone: ["can't be blank"]
              } = errors_on(changeset)
-
     end
 
     test "validates email and password when given" do
@@ -116,8 +115,7 @@ defmodule ReservationBook.AccountsTest do
 
     test "allows fields to be set" do
       %{email: email, password: password} = mappings = valid_user_attributes()
-      changeset =
-        Accounts.change_user_registration(%User{}, mappings)
+      changeset = Accounts.change_user_registration(%User{}, mappings)
 
       assert changeset.valid?
       assert get_change(changeset, :email) == email

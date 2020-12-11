@@ -36,9 +36,19 @@ defmodule ReservationBook.Accounts.User do
   def registration_changeset(user, attrs, opts \\ []) do
     user
     |> cast(attrs, [:email, :password, :name, :surname, :telephone, :comments])
-    |> validate_required([:name, :surname, :telephone,])
+    |> validate_required([:name, :surname, :telephone])
     |> validate_email()
+    |> validate_telephone()
     |> validate_password(opts)
+  end
+
+  defp validate_telephone(changeset) do
+    changeset
+    |> validate_format(
+      :telephone,
+      ~r/^(\+)?\d{9,13}$/,
+      message: "expects only numbers with optional leading country code \"+cc\" and no spaces"
+    )
   end
 
   defp validate_email(changeset) do
@@ -86,6 +96,19 @@ defmodule ReservationBook.Accounts.User do
       %{changes: %{email: _}} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :email, "did not change")
     end
+  end
+
+  @doc """
+  A user changeset for changing all elements in the user profile except for email and password
+
+  It requires some change in the profile and validates the new values
+  """
+  def user_update_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name, :surname, :telephone, :comments])
+    |> validate_required([:name, :surname, :telephone])
+    |> validate_email()
+    |> validate_telephone()
   end
 
   @doc """

@@ -34,6 +34,30 @@ defmodule ReservationBookWeb.UserSettingsController do
     end
   end
 
+  def update(conn, %{"action" => "update_user_data"} = params) do
+    %{"current_password" => password, "user" => user_params} = params
+    user = conn.assigns.current_user
+
+    case Accounts.apply_user_email(user, password, user_params) do
+      {:ok, applied_user} ->
+        Accounts.deliver_update_email_instructions(
+          applied_user,
+          user.email,
+          &Routes.user_settings_url(conn, :confirm_email, &1)
+        )
+
+        conn
+        |> put_flash(
+          :info,
+          "The user data has been successfully updated."
+        )
+        |> redirect(to: Routes.user_settings_path(conn, :edit))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", user_update_changeset: changeset)
+    end
+  end
+
   def update(conn, %{"action" => "update_password"} = params) do
     %{"current_password" => password, "user" => user_params} = params
     user = conn.assigns.current_user
@@ -68,7 +92,7 @@ defmodule ReservationBookWeb.UserSettingsController do
     user = conn.assigns.current_user
 
     conn
-    |> assign(:email_changeset, Accounts.change_user_email(user))
+    |> assign(:user_update_changeset, Accounts.update_user_data(user))
     |> assign(:password_changeset, Accounts.change_user_password(user))
   end
 end

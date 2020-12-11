@@ -183,6 +183,10 @@ defmodule ReservationBook.Accounts do
     User.password_changeset(user, attrs, hash_password: false)
   end
 
+  def update_user_data(user, attrs \\ %{}) do
+    User.user_update_changeset(user, attrs)
+  end
+
   @doc """
   Updates the user password.
 
