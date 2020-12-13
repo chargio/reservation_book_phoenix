@@ -37,6 +37,7 @@ defmodule ReservationBook.Accounts.User do
     user
     |> cast(attrs, [:email, :password, :name, :surname, :telephone, :comments])
     |> validate_required([:name, :surname, :telephone])
+    |> validate_confirmation(:password, message: "does not match password")
     |> validate_email()
     |> validate_telephone()
     |> validate_password(opts)
@@ -83,20 +84,20 @@ defmodule ReservationBook.Accounts.User do
     end
   end
 
-  @doc """
-  A user changeset for changing the email.
+  # @doc """
+  # A user changeset for changing the email.
 
-  It requires the email to change otherwise an error is added.
-  """
-  def email_changeset(user, attrs) do
-    user
-    |> cast(attrs, [:email])
-    |> validate_email()
-    |> case do
-      %{changes: %{email: _}} = changeset -> changeset
-      %{} = changeset -> add_error(changeset, :email, "did not change")
-    end
-  end
+  # It requires the email to change otherwise an error is added.
+  # """
+  # def email_changeset(user, attrs) do
+  #   user
+  #   |> cast(attrs, [:email])
+  #   |> validate_email()
+  #   |> case do
+  #     %{changes: %{email: _}} = changeset -> changeset
+  #     %{} = changeset -> add_error(changeset, :email, "did not change")
+  #   end
+  # end
 
   @doc """
   A user changeset for changing all elements in the user profile except for email and password
@@ -163,5 +164,12 @@ defmodule ReservationBook.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  @doc """
+  Returns true if the user is confirmed, false otherwise
+  """
+  def is_confirmed?(user) do
+    user.confirmed_at != nil
   end
 end

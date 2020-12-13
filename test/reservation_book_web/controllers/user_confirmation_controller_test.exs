@@ -6,7 +6,7 @@ defmodule ReservationBookWeb.UserConfirmationControllerTest do
   import ReservationBook.AccountsFixtures
 
   setup do
-    %{user: user_fixture()}
+    %{user: user_fixture(%{}, confirmed: false)}
   end
 
   describe "GET /users/confirm" do

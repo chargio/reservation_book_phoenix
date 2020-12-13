@@ -4,6 +4,9 @@ defmodule ReservationBook.AccountsFixtures do
   entities via the `ReservationBook.Accounts` context.
   """
 
+  alias ReservationBook.Repo
+  alias ReservationBook.Accounts.{User, UserToken}
+
   # Required to create fake strings
   defp random_string(length) do
     letters = String.graphemes("abcdefghijklmnopqrstuvwxyz")
@@ -33,6 +36,7 @@ defmodule ReservationBook.AccountsFixtures do
     |> Enum.into(%{
       email: unique_user_email(),
       password: valid_user_password(),
+      password_confirmation: valid_user_password(),
       name: valid_user_name(),
       surname: valid_user_surname(),
       telephone: valid_user_phone(),
@@ -40,11 +44,12 @@ defmodule ReservationBook.AccountsFixtures do
     })
   end
 
-  def user_fixture(attrs \\ %{}) do
+  def user_fixture(attrs \\ %{}, opts \\ []) do
     {:ok, user} =
       valid_user_attributes(attrs)
       |> ReservationBook.Accounts.register_user()
 
+    if Keyword.get(opts, :confirmed, true), do: Repo.transaction(confirm_user_multi(user))
     user
   end
 
@@ -52,5 +57,11 @@ defmodule ReservationBook.AccountsFixtures do
     {:ok, captured} = fun.(&"[TOKEN]#{&1}[TOKEN]")
     [_, token, _] = String.split(captured.body, "[TOKEN]")
     token
+  end
+
+  defp confirm_user_multi(user) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:user, User.confirm_changeset(user))
+    |> Ecto.Multi.delete_all(:tokens, UserToken.user_and_contexts_query(user, ["confirm"]))
   end
 end

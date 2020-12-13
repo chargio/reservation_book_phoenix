@@ -20,7 +20,7 @@ defmodule ReservationBookWeb.UserRegistrationControllerTest do
 
   describe "POST /users/register" do
     @tag :capture_log
-    test "creates account and does not log the user in", %{conn: conn} do
+    test "creates account and logs the user in", %{conn: conn} do
       %{email: email} = user_attrs = valid_user_attributes()
 
       conn =
