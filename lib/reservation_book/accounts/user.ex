@@ -84,21 +84,6 @@ defmodule ReservationBook.Accounts.User do
     end
   end
 
-  # @doc """
-  # A user changeset for changing the email.
-
-  # It requires the email to change otherwise an error is added.
-  # """
-  # def email_changeset(user, attrs) do
-  #   user
-  #   |> cast(attrs, [:email])
-  #   |> validate_email()
-  #   |> case do
-  #     %{changes: %{email: _}} = changeset -> changeset
-  #     %{} = changeset -> add_error(changeset, :email, "did not change")
-  #   end
-  # end
-
   @doc """
   A user changeset for changing all elements in the user profile except for email and password
 
@@ -108,7 +93,6 @@ defmodule ReservationBook.Accounts.User do
     user
     |> cast(attrs, [:name, :surname, :telephone, :comments])
     |> validate_required([:name, :surname, :telephone])
-    |> validate_email()
     |> validate_telephone()
   end
 

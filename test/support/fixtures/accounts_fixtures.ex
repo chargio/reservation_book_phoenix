@@ -28,7 +28,7 @@ defmodule ReservationBook.AccountsFixtures do
 
   def valid_user_surname, do: "#{random_string(8)} #{random_string(6)}"
 
-  def valid_user_phone,
+  def valid_user_telephone,
     do: (["+346", "6", "+349", "9", "+348", "8"] |> Enum.random()) <> random_number_string(8)
 
   def valid_user_attributes(attrs \\ %{}) do
@@ -39,7 +39,7 @@ defmodule ReservationBook.AccountsFixtures do
       password_confirmation: valid_user_password(),
       name: valid_user_name(),
       surname: valid_user_surname(),
-      telephone: valid_user_phone(),
+      telephone: valid_user_telephone(),
       comments: nil
     })
   end

@@ -11,10 +11,18 @@ defmodule ReservationBookWeb.UserSessionController do
   def create(conn, %{"user" => user_params}) do
     %{"email" => email, "password" => password} = user_params
 
-    if user = Accounts.get_user_by_email_and_password(email, password) do
+    with {:ok, user} <- Accounts.get_user_by_email_and_password(email, password) do
       UserAuth.log_in_user(conn, user, user_params)
     else
-      render(conn, "new.html", error_message: "Invalid email or password")
+      {:error, :bad_username_or_password} ->
+        render(conn, "new.html", error_message: "Invalid email or password")
+
+      {:error, :not_confirmed} ->
+        user = Accounts.get_user_by_email(email)
+
+        render(conn, "new.html",
+          error_message: "Please confirm your email <#{user.email}> before signing in"
+        )
     end
   end
 

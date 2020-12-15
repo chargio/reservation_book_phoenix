@@ -58,4 +58,36 @@ defmodule ReservationBookWeb.UserSettingsControllerTest do
       assert get_session(old_password_conn, :user_token) == get_session(conn, :user_token)
     end
   end
+
+  describe "PUT /users/settings (change data form)" do
+    @tag :capture_log
+    test "updates the user data", %{conn: conn, user: user} do
+      user_data = %{
+        "name" => "New valid name",
+        "surname" => "New valid surname",
+        "telephone" => valid_user_telephone()
+      }
+
+      new_conn =
+        put(conn, Routes.user_settings_path(conn, :update), %{
+          "action" => "update_user_data",
+          "current_password" => valid_user_password(),
+          "user" => %{
+            "name" => user_data["name"],
+            "surname" => user_data["surname"],
+            "telephone" => user_data["telephone"]
+          }
+        })
+
+      assert updated_user = Accounts.get_user_by_email(user.email)
+
+      assert redirected_to(new_conn) == Routes.user_settings_path(conn, :edit)
+
+      assert get_flash(new_conn, :info) =~
+               "The user #{user_data["name"]} data has been successfully updated"
+
+      assert updated_user.name == user_data["name"]
+      assert updated_user.surname == user_data["surname"]
+    end
+  end
 end
