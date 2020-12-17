@@ -62,19 +62,12 @@ defmodule ReservationBook.AccountsTest do
       %{user: user_fixture()}
     end
 
-    test "requires email and password to be set" do
+    test "requires email and password, name, surname and telephone to be set" do
       {:error, changeset} = Accounts.register_user(%{})
 
       assert %{
                password: ["can't be blank"],
-               email: ["can't be blank"]
-             } = errors_on(changeset)
-    end
-
-    test "requires name, surname and telephone to be set" do
-      {:error, changeset} = Accounts.register_user(%{})
-
-      assert %{
+               email: ["can't be blank"],
                name: ["can't be blank"],
                surname: ["can't be blank"],
                telephone: ["can't be blank"]
@@ -107,6 +100,59 @@ defmodule ReservationBook.AccountsTest do
       assert "has already been taken" in errors_on(changeset).email
     end
 
+    test "validates maximum values for name and surname for security" do
+      too_long = random_string(1000)
+      {:error, changeset} = Accounts.register_user(%{name: too_long, surname: too_long})
+      assert "should be at most 250 character(s)" in errors_on(changeset).name
+      assert "should be at most 250 character(s)" in errors_on(changeset).surname
+    end
+
+    test "validates telephones are ok" do
+      user = user_fixture()
+      good_tlf_numbers = ~w(+34912345678 +34612345678 +1912345678 +11234567890 1234567890123)
+
+      bad_tlf_numbers =
+        ~w(123 +23123 12345678901234 60012312) ++
+          ["600.100.300", "91 123 45 67", "123 456 789", "+34 611 123 456"]
+
+      for i <- good_tlf_numbers do
+        assert is_nil(
+                 Accounts.change_user_registration(%User{} = user, %{telephone: i}).errors[
+                   :telephone
+                 ]
+               )
+      end
+
+      for i <- bad_tlf_numbers do
+        refute(
+          is_nil(
+            Accounts.change_user_registration(%User{} = user, %{telephone: i}).errors[:telephone]
+          ),
+          "Telephone should not be valid #{i}"
+        )
+      end
+    end
+
+    test "validates is ok to have nil comments" do
+      changeset = Accounts.change_user_registration(%User{}, %{comments: nil})
+      assert is_nil(changeset.errors[:comments])
+    end
+
+    test "validates is ok to have a string comments" do
+      changeset = Accounts.change_user_registration(%User{}, %{comments: "A valid comment"})
+      assert is_nil(changeset.errors[:comments])
+    end
+
+    test "valides lenght of comments not longer than 500" do
+      bad_comment = random_string(501)
+      changeset = Accounts.change_user_registration(%User{}, %{comments: bad_comment})
+
+      assert match?(
+               {_text, [count: 500, validation: :length, kind: :max, type: _]},
+               changeset.errors[:comments]
+             )
+    end
+
     test "registers users with a hashed password" do
       %{email: email} = mappings = valid_user_attributes()
       {:ok, user} = Accounts.register_user(mappings)
@@ -124,12 +170,17 @@ defmodule ReservationBook.AccountsTest do
     end
 
     test "allows fields to be set" do
-      %{email: email, password: password} = mappings = valid_user_attributes()
+      %{email: email, password: password, name: name, surname: surname, telephone: telephone} =
+        mappings = valid_user_attributes()
+
       changeset = Accounts.change_user_registration(%User{}, mappings)
 
       assert changeset.valid?
       assert get_change(changeset, :email) == email
       assert get_change(changeset, :password) == password
+      assert get_change(changeset, :name) == name
+      assert get_change(changeset, :surname) == surname
+      assert get_change(changeset, :telephone) == telephone
       assert is_nil(get_change(changeset, :hashed_password))
     end
   end

@@ -40,6 +40,9 @@ defmodule ReservationBook.Accounts.User do
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_email()
     |> validate_telephone()
+    |> validate_length(:name, max: 250)
+    |> validate_length(:surname, max: 250)
+    |> validate_length(:comments, max: 500)
     |> validate_password(opts)
   end
 
@@ -94,6 +97,9 @@ defmodule ReservationBook.Accounts.User do
     |> cast(attrs, [:name, :surname, :telephone, :comments])
     |> validate_required([:name, :surname, :telephone])
     |> validate_telephone()
+    |> validate_length(:name, max: 250)
+    |> validate_length(:surname, max: 250)
+    |> validate_length(:comments, max: 500)
   end
 
   @doc """
