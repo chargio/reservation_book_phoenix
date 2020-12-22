@@ -46,6 +46,8 @@ defmodule ReservationBook.Accounts.User do
     |> validate_password(opts)
   end
 
+
+  # Validates that the telephone for the user has the correct format.
   defp validate_telephone(changeset) do
     changeset
     |> validate_format(
