@@ -3,32 +3,54 @@
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title> "ReservationBook" </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Reservation Book </title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
     <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-          <%= render "_user_menu.html", assigns %>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
+      <nav class="navbar" role="navigation" aria-label="main-navigation">
+          <div class="navbar-brand">
+             <a class="navbar-item" href="https://hexdocs.pm/phoenix/overview.html">
+              <img src="<%= Routes.static_path(@conn, "/images/brand.svg") %>" alt="Reservation Book Logo"/>
+            </a>
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarReservationBook">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>  
+          </div>
+          <div class="navbar-menu" id="navbarReservationBook">
+            <div class="navbar-start">
+              <a class="navbar-item" href="https://hexdocs.pm/phoenix/overview.html">Get Started</a>
+
+              <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+                <div class="navbar-item"><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></div>
+              <% end %>
+            </div>
+            <div class="navbar-end">
+                   <%= render "_user_menu.html", assigns %>
+            </div> 
+          </div>
+      </nav>
     </header>
-    <main role="main" class="container">
+
+    <section class="section">
+     <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= @inner_content %>
+      </div>
+      </section>
     </main>
+
+    <section class="footer">
+     <div class="content has-text-centered">
+       <p>
+        <strong>Reservation Book</strong> by Sergio Ocón. The source code is licensed and available here.
+       </p>
+     </div>
+    </section>
   </body>
 </html>
