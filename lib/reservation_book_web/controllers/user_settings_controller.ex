@@ -11,10 +11,10 @@ defmodule ReservationBookWeb.UserSettingsController do
   end
 
   def update(conn, %{"action" => "update_user_data"} = params) do
-    %{"current_password" => password, "user" => user_params} = params
+    %{"user" => user_params} = params
     user = conn.assigns.current_user
 
-    case Accounts.apply_user_update(user, password, user_params) do
+    case Accounts.apply_user_update(user, user_params) do
       {:ok, user} ->
         conn
         |> put_flash(

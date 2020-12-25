@@ -115,7 +115,7 @@ defmodule ReservationBook.Accounts do
           :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
         ) :: Ecto.Changeset.t()
   @doc """
-  Returns an '%Ecto.Changeset{}' for changing everything expect the user password.
+  Returns an '%Ecto.Changeset{}' for changing everything expect the user email and password.
 
   ## Examples
     iex> change_user_data(user)
@@ -138,11 +138,10 @@ defmodule ReservationBook.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def apply_user_update(user, password, attrs) do
+  def apply_user_update(user, attrs) do
     changeset =
       user
       |> change_user_data(attrs)
-      |> User.validate_current_password(password)
 
     Ecto.Multi.new()
     |> Ecto.Multi.update(:user, changeset)
