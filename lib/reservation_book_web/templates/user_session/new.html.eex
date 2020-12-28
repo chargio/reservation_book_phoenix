@@ -1,27 +1,35 @@
-<h1>Log in</h1>
+<h1 class="title">Log in</h1>
 
 <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>
   <%= if @error_message do %>
-    <div class="alert alert-danger">
+    <div class="notification is-danger is-light">
       <p><%= @error_message %></p>
     </div>
   <% end %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
-
-  <%= label f, :remember_me, "Keep me logged in for 60 days" %>
-  <%= checkbox f, :remember_me %>
-
-  <div>
-    <%= submit "Log in" %>
+  <div class="field">
+    <%= label f, :email, class: "label"%>
+    <div class="control"> <%= email_input f, :email, required: true %></div>
+  </div>
+  <div class="field">
+    <%= label f, :password, class: "label" %>
+    <div class="control"><%= password_input f, :password, required: true %></div>
+  </div>
+  <div class="field">
+    <div class="checkbox">
+      <%= label f, :remember_me, "Keep me logged in for 60 days" %>
+      <%= checkbox f, :remember_me, [class: "checkbox", text: "hola"]%>
+    </div>
+   </div>
+  <div class="field">
+    <div class="control">
+      <%= submit "Log in", class: "button is-link" %>
+    </div>
   </div>
 <% end %>
 
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-</p>
+<div class="field is-grouped has-text-link">
+  <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "has-text-link is-primary" %> 
+   | 
+  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "has-text-info" %>
+</div>

@@ -14,7 +14,6 @@ import "../css/app.scss"
 //
 import "phoenix_html"
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements
