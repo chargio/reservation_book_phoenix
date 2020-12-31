@@ -10,7 +10,7 @@
 
     <div class="field">
       <%= label f, :email, class: "label" %>
-      <div class="control"> <%= email_input f, :email, required: true %> </div>
+      <div class="control"> <%= email_input f, :email, required: true, class: "input", type: "email" %> </div>
       <p class="help is-danger">
         <%= error_tag f, :email %>
         </p>
@@ -18,7 +18,7 @@
 
     <div class="field">
       <%= label f, :password, class: "label" %>
-      <%= password_input f, :password, required: true %>
+      <%= password_input f, :password, required: true, class: "input", type: "password" %>
       <%= error_tag f, :password %>
     </div>
 
@@ -39,7 +39,7 @@
       <%= text_input f, :surname, required: true %>
       <%= error_tag f, :surname %>
     </div>
-    
+
     <div class="field">
       <%= label f, :telephone, class: "label" %>
       <%= text_input f, :telephone, required: true %>
@@ -63,11 +63,11 @@
 <div class="level">
   <div class="level-left">
     <div class="level-item">
-      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "is-primary"  %> 
+      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "is-primary"  %>
     </div>
     <div class="level-item">
       |
-   </div> 
+   </div>
     <div class="level-item">
       <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "has-text-info" %>
     </div>

@@ -19,7 +19,10 @@ defmodule ReservationBookWeb.UserRegistrationController do
           )
 
         conn
-        |> put_flash(:info, "User created successfully. Please review your email to confirm your account")
+        |> put_flash(
+          :info,
+          "User created successfully. Please review your email to confirm your account"
+        )
         |> redirect(to: "/")
 
       {:error, %Ecto.Changeset{} = changeset} ->

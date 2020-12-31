@@ -87,7 +87,6 @@ defmodule ReservationBook.Accounts.User do
     change(user, confirmed_at: now)
   end
 
-
   # Validates that the telephone for the user has the correct format.
   defp validate_telephone(changeset) do
     changeset
