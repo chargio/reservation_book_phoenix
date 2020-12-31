@@ -10,7 +10,7 @@
   </head>
   <body>
     <header>
-      <nav class="navbar" role="navigation" aria-label="main-navigation">
+      <nav class="navbar is-light" role="navigation" aria-label="main-navigation">
           <div class="navbar-brand">
              <a class="navbar-item" href="https://hexdocs.pm/phoenix/overview.html">
               <img src="<%= Routes.static_path(@conn, "/images/brand.svg") %>" alt="Reservation Book Logo"/>
@@ -19,7 +19,7 @@
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
               <span aria-hidden="true"></span>
-            </a>  
+            </a>
           </div>
           <div class="navbar-menu" id="navbarReservationBook">
             <div class="navbar-start">
@@ -31,7 +31,7 @@
             </div>
             <div class="navbar-end">
                    <%= render "_user_menu.html", assigns %>
-            </div> 
+            </div>
           </div>
       </nav>
     </header>

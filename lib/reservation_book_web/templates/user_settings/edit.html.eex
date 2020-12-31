@@ -29,7 +29,7 @@
 
     <div class="field">
       <%= label f, :telephone, class: "label" %>
-      <%= text_input f, :telephone, class: "input", type: "tel" %>
+      <%= telephone_input f, :telephone, class: "input", type: "tel" %>
       <%= error_tag f, :telephone %>
     </div>
 
