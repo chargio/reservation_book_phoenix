@@ -4,8 +4,8 @@ defmodule ReservationBook.MixProject do
   def project do
     [
       app: :reservation_book,
-      version: "0.1.0",
-      elixir: "~> 1.7",
+      version: "0.1.1",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -46,7 +46,8 @@ defmodule ReservationBook.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false}
+      {:phx_gen_auth, "~> 0.6", only: [:dev], runtime: false},
+      {:credo, "~>1.4", only: [:dev, :test], runtime: false}
     ]
   end
 
