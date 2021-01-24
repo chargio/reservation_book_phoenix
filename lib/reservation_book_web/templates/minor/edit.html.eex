@@ -1,0 +1,5 @@
+<h1>Edit Minor</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.minor_path(@conn, :update, @minor)) %>
+
+<span><%= link "Back", to: Routes.minor_path(@conn, :index) %></span>

@@ -1,0 +1,32 @@
+<h1>Listing Minors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Age</th>
+      <th>Course</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for minor <- @minors do %>
+    <tr>
+      <td><%= minor.name %></td>
+      <td><%= minor.surname %></td>
+      <td><%= minor.age %></td>
+      <td><%= minor.course %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.minor_path(@conn, :show, minor) %></span>
+        <span><%= link "Edit", to: Routes.minor_path(@conn, :edit, minor) %></span>
+        <span><%= link "Delete", to: Routes.minor_path(@conn, :delete, minor), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Minor", to: Routes.minor_path(@conn, :new) %></span>

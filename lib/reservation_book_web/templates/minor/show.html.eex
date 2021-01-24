@@ -1,0 +1,28 @@
+<h1>Show Minor</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @minor.name %>
+  </li>
+
+  <li>
+    <strong>Surname:</strong>
+    <%= @minor.surname %>
+  </li>
+
+  <li>
+    <strong>Age:</strong>
+    <%= @minor.age %>
+  </li>
+
+  <li>
+    <strong>Course:</strong>
+    <%= @minor.course %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.minor_path(@conn, :edit, @minor) %></span>
+<span><%= link "Back", to: Routes.minor_path(@conn, :index) %></span>

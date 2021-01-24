@@ -56,6 +56,9 @@ defmodule ReservationBookWeb.Router do
     post "/users/reset_password", UserResetPasswordController, :create
     get "/users/reset_password/:token", UserResetPasswordController, :edit
     put "/users/reset_password/:token", UserResetPasswordController, :update
+
+    resources "/minors", MinorController
+
   end
 
   scope "/", ReservationBookWeb do
@@ -66,6 +69,7 @@ defmodule ReservationBookWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     get "/secured_page", PageController, :secure
+
   end
 
   scope "/", ReservationBookWeb do

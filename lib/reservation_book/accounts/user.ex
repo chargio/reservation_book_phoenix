@@ -1,4 +1,9 @@
 defmodule ReservationBook.Accounts.User do
+  @moduledoc """
+  This module defines the user in the Accounts context.
+  Provides with different changesets for creation and update of users.
+  It also provides support for token / sessions
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
