@@ -1,8 +1,9 @@
 defmodule ReservationBookWeb.UserSettingsControllerTest do
   use ReservationBookWeb.ConnCase, async: true
+  use AccountsHelpers
 
   alias ReservationBook.Accounts
-  import ReservationBook.AccountsFixtures
+
 
   setup :register_and_log_in_user
 

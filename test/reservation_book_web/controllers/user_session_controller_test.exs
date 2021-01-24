@@ -1,5 +1,6 @@
 defmodule ReservationBookWeb.UserSessionControllerTest do
   use ReservationBookWeb.ConnCase, async: true
+  use AccountsHelpers
 
   import ReservationBook.AccountsFixtures
 
