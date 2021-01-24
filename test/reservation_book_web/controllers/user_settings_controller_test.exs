@@ -4,7 +4,6 @@ defmodule ReservationBookWeb.UserSettingsControllerTest do
 
   alias ReservationBook.Accounts
 
-
   setup :register_and_log_in_user
 
   describe "GET /users/settings" do

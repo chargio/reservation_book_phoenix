@@ -19,15 +19,12 @@ defmodule ReservationBook.FixturesHelpers do
     random_string_of_length(letters, length)
   end
 
-
   # A e function that creates fake string that represent numbers of a given length.
   # It is not an Integer but a String
   def random_number_string(length) do
     numbers = String.graphemes("0123456789")
     random_string_of_length(numbers, length)
   end
-
-
 
   @doc """
   A function to create a unique user email for tests
@@ -60,5 +57,4 @@ defmodule ReservationBook.FixturesHelpers do
   """
   def valid_user_telephone,
     do: (["+346", "6", "+349", "9", "+348", "8"] |> Enum.random()) <> random_number_string(8)
-
 end

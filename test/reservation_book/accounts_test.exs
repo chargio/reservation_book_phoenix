@@ -1,11 +1,15 @@
 defmodule ReservationBook.AccountsTest do
   use ReservationBook.DataCase
-
   use ReservationBook.FixturesHelpers
 
   alias ReservationBook.Accounts
   import ReservationBook.AccountsFixtures
   alias ReservationBook.Accounts.{User, UserToken}
+
+  @good_telephone_numbers  ~w(+34912345678 +34612345678 +1912345678 +11234567890 1234567890123)
+  @bad_telephone_numbers  ~w(123 +23123 12345678901234 60012312) ++
+  ["600.100.300", "91 123 45 67", "123 456 789", "+34 611 123 456"]
+
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
@@ -111,11 +115,10 @@ defmodule ReservationBook.AccountsTest do
 
     test "validates telephones are ok" do
       user = user_fixture()
-      good_tlf_numbers = ~w(+34912345678 +34612345678 +1912345678 +11234567890 1234567890123)
+      good_tlf_numbers = @good_telephone_numbers
 
-      bad_tlf_numbers =
-        ~w(123 +23123 12345678901234 60012312) ++
-          ["600.100.300", "91 123 45 67", "123 456 789", "+34 611 123 456"]
+      bad_tlf_numbers = @bad_telephone_numbers
+
 
       for i <- good_tlf_numbers do
         assert is_nil(
