@@ -6,7 +6,7 @@ defmodule ReservationBook.AccountsFixtures do
 
   alias ReservationBook.Repo
   alias ReservationBook.Accounts.{User, UserToken}
-  use AccountsHelpers
+  use ReservationBook.FixturesHelpers
 
   @doc """
   A funtion that returns a Struct with all the required fields filled.

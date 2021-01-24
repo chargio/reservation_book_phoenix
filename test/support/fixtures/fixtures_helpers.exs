@@ -1,23 +1,30 @@
-defmodule AccountsHelpers do
+# Shared functions needed to create fixtures that make sense
+
+defmodule ReservationBook.FixturesHelpers do
   defmacro __using__(_options) do
     quote do
-      import AccountsHelpers, only: :functions
+      import ReservationBook.FixturesHelpers, only: :functions
     end
   end
 
-  # A private function that allows to create fake strings with a defined length (only lowercase letters currently)
+  # A function that takes a String with graphemes and generates a random list of them with a defined length
+  defp random_string_of_length(graphemes, length) do
+    Stream.repeatedly(fn -> Enum.random(graphemes) end) |> Enum.take(length) |> Enum.join()
+  end
+
+  # A function that allows to create fake strings with a defined length (only lowercase letters currently)
   @spec random_string(integer) :: binary
   def random_string(length) do
     letters = String.graphemes("abcdefghijklmnopqrstuvwxyz")
-    Stream.repeatedly(fn -> Enum.random(letters) end) |> Enum.take(length) |> Enum.join()
+    random_string_of_length(letters, length)
   end
 
 
-    # A private function that creates fake string that represent numbers of a given length.
+  # A e function that creates fake string that represent numbers of a given length.
   # It is not an Integer but a String
   def random_number_string(length) do
     numbers = String.graphemes("0123456789")
-    Stream.repeatedly(fn -> Enum.random(numbers) end) |> Enum.take(length) |> Enum.join()
+    random_string_of_length(numbers, length)
   end
 
 
@@ -27,7 +34,7 @@ defmodule AccountsHelpers do
   It works creating a random string of 10 characters and then appending @test.com at the end of it
   """
   @spec unique_user_email :: <<_::64, _::_*8>>
-  def unique_user_email, do: "#{AccountsHelpers.random_string(10)}@test.com"
+  def unique_user_email, do: "#{random_string(10)}@test.com"
 
   @doc """
   A function to create a valid password, that can be used in tests.
@@ -43,7 +50,7 @@ defmodule AccountsHelpers do
   @doc """
   A function that returns a valid user surname, basically generating a random first surname <space> second surname
   """
-  def valid_user_surname, do: "#{AccountsHelpers.random_string(8)} #{AccountsHelpers.random_string(6)}"
+  def valid_user_surname, do: "#{random_string(8)} #{random_string(6)}"
 
   @doc """
   A function that returns a valid user telephone, with a valid prefix, and 8 numbers afterwards

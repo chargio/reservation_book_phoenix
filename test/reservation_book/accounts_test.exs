@@ -1,7 +1,7 @@
 defmodule ReservationBook.AccountsTest do
   use ReservationBook.DataCase
 
-  use AccountsHelpers
+  use ReservationBook.FixturesHelpers
 
   alias ReservationBook.Accounts
   import ReservationBook.AccountsFixtures
@@ -103,7 +103,7 @@ defmodule ReservationBook.AccountsTest do
     end
 
     test "validates maximum values for name and surname for security" do
-      too_long = AccountsHelpers.random_string(1000)
+      too_long = random_string(1000)
       {:error, changeset} = Accounts.register_user(%{name: too_long, surname: too_long})
       assert "should be at most 250 character(s)" in errors_on(changeset).name
       assert "should be at most 250 character(s)" in errors_on(changeset).surname
@@ -146,7 +146,7 @@ defmodule ReservationBook.AccountsTest do
     end
 
     test "valides lenght of comments not longer than 500" do
-      bad_comment = AccountsHelpers.random_string(501)
+      bad_comment = random_string(501)
       changeset = Accounts.change_user_registration(%User{}, %{comments: bad_comment})
 
       assert match?(
