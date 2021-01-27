@@ -3,9 +3,9 @@ defmodule ReservationBook.Repo.Migrations.AddDataToUser do
 
   def change do
     alter table(:users) do
-      add :name, :string
-      add :surname, :string
-      add :telephone, :string
+      add :name, :string, null: false
+      add :surname, :string, null: false
+      add :telephone, :string, null: false
       add :comments, :text
     end
 

@@ -2,19 +2,14 @@ defmodule ReservationBookWeb.MinorControllerTest do
   use ReservationBookWeb.ConnCase
   use ReservationBook.FixturesHelpers
 
-  import ReservationBook.Attendees
+  #import ReservationBook.Attendees
 
   alias ReservationBook.Attendees
+  import ReservationBook.AttendeesFixtures
 
-
-  @create_attrs %{age: 42, course: "some course", name: "some name", surname: "some surname"}
   @update_attrs %{age: 43, course: "some updated course", name: "some updated name", surname: "some updated surname"}
   @invalid_attrs %{age: nil, course: nil, name: nil, surname: nil}
 
-  def fixture(:minor) do
-    {:ok, minor} = Attendees.create_minor(@create_attrs)
-    minor
-  end
 
   describe "index" do
     test "lists all minors", %{conn: conn} do
@@ -32,7 +27,7 @@ defmodule ReservationBookWeb.MinorControllerTest do
 
   describe "create minor" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.minor_path(conn, :create), minor: @create_attrs)
+      conn = post(conn, Routes.minor_path(conn, :create), minor: valid_minor_attributes())
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.minor_path(conn, :show, id)
@@ -86,7 +81,7 @@ defmodule ReservationBookWeb.MinorControllerTest do
   end
 
   defp create_fake_minor(_) do
-    minor = fixture(:minor)
+    minor = minor_fixture(%{}, [new_user: true])
     %{minor: minor}
   end
 end

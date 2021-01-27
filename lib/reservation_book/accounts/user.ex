@@ -18,6 +18,8 @@ defmodule ReservationBook.Accounts.User do
     field :telephone, :string
     field :comments, :string
 
+    has_many :minors, ReservationBook.Attendees.Minor
+
     timestamps()
   end
 

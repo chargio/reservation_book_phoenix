@@ -4,22 +4,36 @@ defmodule ReservationBook.AttendeesFixtures do
   entities via the `ReservationBook.Accounts` context.
   """
 
-  alias ReservationBook.Repo
-  alias ReservationBook.Attendees.Minor
+  # alias ReservationBook.Repo
+  # alias ReservationBook.Attendees.Minor
   alias ReservationBook.Attendees
   alias ReservationBook.AccountsFixtures
   use ReservationBook.FixturesHelpers
 
-  @valid_attrs %{age: 12, course: "primary first", name: "some name", surname: "some surname"}
-  @update_attrs %{age: 13, course: "primary second", name: "some updated name", surname: "some updated surname"}
-  @invalid_attrs %{age: nil, course: nil, name: nil, surname: nil}
+  @valid_attrs %{course: "primary first", age: 11}
 
-  def minor_fixture(attrs \\ %{}) do
+  def valid_minor_attributes(attrs \\ %{}, options \\ []) do
+
+   user_id = case Keyword.get(options, :new_user, true) do
+      true -> AccountsFixtures.user_fixture().id
+      _ -> nil
+    end
+
+    attrs
+    |> Enum.into(%{
+      name: valid_user_name(),
+      surname: valid_user_surname(),
+      course: @valid_attrs.course,
+      age: @valid_attrs.age,
+      user_id: user_id
+    })
+
+  end
+
+  def minor_fixture(attrs \\ %{}, options \\ []) do
     {:ok, minor} =
-      attrs
-      |> Enum.into(@valid_attrs)
+      valid_minor_attributes(attrs, options)
       |> Attendees.create_minor()
-
     minor
   end
 

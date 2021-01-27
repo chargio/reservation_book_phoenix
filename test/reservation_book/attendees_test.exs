@@ -9,7 +9,6 @@ defmodule ReservationBook.AttendeesTest do
   describe "minors" do
     alias ReservationBook.Attendees.Minor
 
-    @valid_attrs %{age: 12, course: "primary first", name: "some name", surname: "some surname"}
     @update_attrs %{age: 13, course: "primary second", name: "some updated name", surname: "some updated surname"}
     @invalid_attrs %{age: nil, course: nil, name: nil, surname: nil}
 
@@ -25,24 +24,32 @@ defmodule ReservationBook.AttendeesTest do
     end
 
     test "create_minor/1 with valid data creates a minor" do
-      assert {:ok, %Minor{} = minor} = Attendees.create_minor(@valid_attrs)
-      assert minor.age == 12
-      assert minor.course == "primary first"
-      assert minor.name == "some name"
-      assert minor.surname == "some surname"
+      assert {:ok, %Minor{} = minor} = Attendees.create_minor(attrs = valid_minor_attributes())
+      assert minor.age == attrs.age
+      assert minor.course == attrs.course
+      assert minor.name == attrs.name
+      assert minor.surname == attrs.surname
     end
 
     test "create_minor/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Attendees.create_minor(@invalid_attrs)
     end
 
+    test "create_minor/1 with no user returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Attendees.create_minor(attrs = valid_minor_attributes(%{}, [new_user: false]))
+    end
+
+    test "create_minor/1 with a wrong user returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Attendees.create_minor(attrs = valid_minor_attributes(%{user_id: 1}, [new_user: false]))
+    end
+
     test "update_minor/2 with valid data updates the minor" do
       minor = minor_fixture()
       assert {:ok, %Minor{} = minor} = Attendees.update_minor(minor, @update_attrs)
-      assert minor.age == 13
-      assert minor.course == "primary second"
-      assert minor.name == "some updated name"
-      assert minor.surname == "some updated surname"
+      assert minor.age == @update_attrs.age
+      assert minor.course == @update_attrs.course
+      assert minor.name == @update_attrs.name
+      assert minor.surname == @update_attrs.surname
     end
 
     test "update_minor/2 with invalid data returns error changeset" do

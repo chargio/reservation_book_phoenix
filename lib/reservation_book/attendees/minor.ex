@@ -7,7 +7,7 @@ defmodule ReservationBook.Attendees.Minor do
     field :course, :string
     field :name, :string
     field :surname, :string
-    field :user_id, :id
+    belongs_to :user, ReservationBook.Accounts.User
 
     timestamps()
   end
@@ -15,7 +15,8 @@ defmodule ReservationBook.Attendees.Minor do
   @doc false
   def changeset(minor, attrs) do
     minor
-    |> cast(attrs, [:name, :surname, :age, :course])
-    |> validate_required([:name, :surname, :age, :course])
+    |> cast(attrs, [:name, :surname, :age, :course, :user_id])
+    |> validate_required([:name, :surname, :age, :course, :user_id])
+    |> foreign_key_constraint(:user_id)
   end
 end
